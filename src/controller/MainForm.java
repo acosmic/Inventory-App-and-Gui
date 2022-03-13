@@ -90,10 +90,8 @@ public class MainForm implements Initializable {
     public void MainPartsDeleteAction(ActionEvent actionEvent) {
         Part selectedPart = (Part) partsTable.getSelectionModel().getSelectedItem();
         ObservableList<Part> allParts = Inventory.getAllParts();
-        allParts.remove(selectedPart);
+        Inventory.deletePart(selectedPart);
         partsTable.setItems(allParts);
-
-
 
     }
 
@@ -121,7 +119,7 @@ public class MainForm implements Initializable {
     public void MainProductsDeleteAction(ActionEvent actionEvent) {
         Product selectedProduct = (Product) productsTable.getSelectionModel().getSelectedItem();
         ObservableList<Product> allProducts= Inventory.getAllProducts();
-        allProducts.remove(selectedProduct);
+        Inventory.deleteProduct(selectedProduct);
         productsTable.setItems(allProducts);
     }
 

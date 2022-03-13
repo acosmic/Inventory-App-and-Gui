@@ -54,18 +54,18 @@
             <Label text="Price/Cost" GridPane.rowIndex="3" />
             <Label text="Max" GridPane.rowIndex="4" />
             <Label fx:id="MachineIDLabel" text="Machine ID" GridPane.rowIndex="5" />
-            <TextField disable="true" editable="false" promptText="Auto Gen - Disabled" GridPane.columnIndex="1">
+            <TextField fx:id="addPartId" disable="true" editable="false" promptText="Auto Gen - Disabled" GridPane.columnIndex="1">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
             </TextField>
-            <TextField layoutX="110.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField layoutX="110.0" layoutY="43.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField layoutX="110.0" layoutY="73.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField layoutX="110.0" layoutY="103.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField layoutX="110.0" layoutY="133.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="addPartName" layoutX="110.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="addPartInv" layoutX="110.0" layoutY="43.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="addPartPrice" layoutX="110.0" layoutY="73.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="addPartMax" layoutX="110.0" layoutY="103.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="addPartMachineId" layoutX="110.0" layoutY="133.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label alignment="CENTER" text="Min" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-            <TextField layoutX="110.0" layoutY="133.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <TextField fx:id="addPartMin" layoutX="110.0" layoutY="133.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
          </children>
       </GridPane>
       <HBox layoutX="317.0" layoutY="300.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0">

@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -8,7 +9,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.InHouse;
+import model.Inventory;
+import model.Part;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,6 +25,13 @@ public class AddPartForm implements Initializable {
     public Label MachineIDLabel;
     public RadioButton InHouseRadio;
     public RadioButton OutsourcedRadio;
+    public TextField addPartId;
+    public TextField addPartName;
+    public TextField addPartInv;
+    public TextField addPartPrice;
+    public TextField addPartMax;
+    public TextField addPartMachineId;
+    public TextField addPartMin;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -41,11 +53,68 @@ public class AddPartForm implements Initializable {
         OutsourcedRadio.setSelected(true);
     }
 
-    public void AddPartSaveBtn(ActionEvent actionEvent) {
+    public void AddPartSaveBtn(ActionEvent actionEvent) throws IOException {
+        ObservableList<Part> allParts = Inventory.getAllParts();
+        String name = addPartName.getText();
+        double price = Double.parseDouble(addPartPrice.getText());
+        int stock = Integer.parseInt(addPartInv.getText());
+        int min = Integer.parseInt(addPartMin.getText());
+        int max = Integer.parseInt(addPartMax.getText());
+
+
+        int incrementId = 1;
+        for(int i = 0; i < allParts.size(); i++){
+            Part p = allParts.get(i);
+            if(p.getId() == incrementId){
+                incrementId = incrementId + 2;
+            }
+        }
+        System.out.println(incrementId);
+
+        int id = incrementId;
+        Part newPart = new Part(id,name,price,stock,min,max) {
+            @Override
+            public void setId(int id) {
+                super.setId(id);
+            }
+
+            @Override
+            public void setName(String name) {
+                super.setName(name);
+            }
+
+            @Override
+            public void setPrice(double price) {
+                super.setPrice(price);
+            }
+
+            @Override
+            public void setStock(int stock) {
+                super.setStock(stock);
+            }
+
+            @Override
+            public void setMin(int min) {
+                super.setMin(min);
+            }
+
+            @Override
+            public void setMax(int max) {
+                super.setMax(max);
+            }
+        };
+        allParts.add(newPart);
+
+        toMainScreen(actionEvent);
+
 
     }
 
     public void AddPartCancelBtn(ActionEvent actionEvent) throws IOException {
+        toMainScreen(actionEvent);
+    }
+
+    public void toMainScreen(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/MainForm.fxml")));
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
         Scene MainForm = new Scene(root);
