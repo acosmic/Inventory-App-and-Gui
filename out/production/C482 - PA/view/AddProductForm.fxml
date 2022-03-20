@@ -72,16 +72,16 @@
             <Label text="Inv" GridPane.rowIndex="2" />
             <Label text="Price" GridPane.rowIndex="3" />
             <Label text="Max" GridPane.rowIndex="4" />
-            <TextField disable="true" promptText="Auto Gen - Disabled" GridPane.columnIndex="1">
+            <TextField fx:id="addProductId" disable="true" editable="false" promptText="Auto Gen - Disabled" GridPane.columnIndex="1">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font></TextField>
-            <TextField layoutX="55.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField layoutX="55.0" layoutY="43.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField layoutX="55.0" layoutY="73.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField layoutX="55.0" layoutY="103.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="addProductName" layoutX="55.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="addProductInv" layoutX="55.0" layoutY="43.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="addProductPrice" layoutX="55.0" layoutY="73.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="addProductMax" layoutX="55.0" layoutY="103.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label text="Min" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <TextField fx:id="addProductMin" GridPane.columnIndex="3" GridPane.rowIndex="4" />
          </children>
       </GridPane>
    </children>

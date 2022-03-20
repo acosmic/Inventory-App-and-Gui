@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.InHouse;
 import model.Inventory;
+import model.Outsourced;
 import model.Part;
 
 import java.io.IOException;
@@ -62,6 +63,8 @@ public class AddPartForm implements Initializable {
         int max = Integer.parseInt(addPartMax.getText());
 
 
+
+
         int incrementId = 1;
         for(int i = 0; i < allParts.size(); i++){
             Part p = allParts.get(i);
@@ -72,39 +75,15 @@ public class AddPartForm implements Initializable {
         System.out.println(incrementId);
 
         int id = incrementId;
-        Part newPart = new Part(id,name,price,stock,min,max) {
-            @Override
-            public void setId(int id) {
-                super.setId(id);
-            }
-
-            @Override
-            public void setName(String name) {
-                super.setName(name);
-            }
-
-            @Override
-            public void setPrice(double price) {
-                super.setPrice(price);
-            }
-
-            @Override
-            public void setStock(int stock) {
-                super.setStock(stock);
-            }
-
-            @Override
-            public void setMin(int min) {
-                super.setMin(min);
-            }
-
-            @Override
-            public void setMax(int max) {
-                super.setMax(max);
-            }
-        };
-        allParts.add(newPart);
-
+        if (InHouseRadio.isSelected()){
+            int machineId = Integer.parseInt(addPartMachineId.getText());
+            InHouse newPart = new InHouse(id,name,price,stock,min,max,machineId);
+            allParts.add(newPart);
+        } else if (OutsourcedRadio.isSelected()) {
+            String companyName = addPartMachineId.getText();
+            Outsourced newPart = new Outsourced(id,name,price,stock,min,max,companyName);
+            allParts.add(newPart);
+        }
         toMainScreen(actionEvent);
 
 

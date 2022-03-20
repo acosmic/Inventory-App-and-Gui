@@ -52,8 +52,15 @@ public class Inventory  {
         }
         return foundProducts;
     }
-//    public static void updatePart(int index, Part selectedPart){ }
-//    public static void updateProduct(int index, Product selectedProduct){ }
+    public static void updatePart(int index, Part selectedPart){
+        allParts.remove(index);
+        allParts.add(selectedPart);
+
+    }
+    public static void updateProduct(int index, Product selectedProduct){
+        allProducts.remove(index);
+        allProducts.add(selectedProduct);
+    }
     public static boolean deletePart(Part selectedPart){
         allParts.remove(selectedPart);
         return false;

@@ -13,10 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.InHouse;
-import model.Inventory;
-import model.Part;
-import model.Product;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,6 +21,7 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
+import static controller.ModifyPartForm.*;
 import static javafx.application.Platform.exit;
 
 public class MainForm implements Initializable {
@@ -78,12 +76,31 @@ public class MainForm implements Initializable {
 
     // Main Screen MODIFY Parts Button - Switch to ModifyPartForm
     public void MainPartsModifyAction(ActionEvent actionEvent) throws IOException {
+
+        Part selectedPart = (Part) partsTable.getSelectionModel().getSelectedItem();
+        System.out.println(selectedPart.getClass());
+
+
+        if (selectedPart.getClass() == model.InHouse.class) {
+            InHouse selectPart = (InHouse) selectedPart;
+            passInHouse(selectPart);
+        }
+        else {
+            Outsourced selectPart = (Outsourced) selectedPart;
+            passOutsourced(selectPart);
+        }
+
+
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ModifyPartForm.fxml")));
-        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene ModifyPart = new Scene(root);
         stage.setTitle("C482 - Modify Part Screen");
         stage.setScene(ModifyPart);
         stage.show();
+//        Inventory.deletePart(selectedPart);
+
+
+
     }
 
     // Main Screen DELETE Parts Button
