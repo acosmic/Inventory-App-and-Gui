@@ -105,12 +105,10 @@ public class ModifyPartForm implements Initializable {
         int max = Integer.parseInt(modPartMax.getText());
         if (MPInHouseRadio.isSelected() == true){
             int machineId = Integer.parseInt(modPartMachineID.getText());
-            InHouse newPart = new InHouse(id, name, price, stock, min, max, machineId);
-            Inventory.updatePart(index, newPart);
+            Inventory.updatePart(index, new InHouse(id, name, price, stock, min, max, machineId));
         } else {
             String companyID = modPartMachineID.getText();
-            Outsourced newPart = new Outsourced(id, name, price, stock, min, max, companyID);
-            Inventory.updatePart(index, newPart);
+            Inventory.updatePart(index, new Outsourced(id, name, price, stock, min, max, companyID));
         }
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/MainForm.fxml")));

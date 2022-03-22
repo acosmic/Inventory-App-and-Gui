@@ -22,6 +22,7 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 
 import static controller.ModifyPartForm.*;
+import static controller.ModifyProductForm.passProduct;
 import static javafx.application.Platform.exit;
 
 public class MainForm implements Initializable {
@@ -78,9 +79,6 @@ public class MainForm implements Initializable {
     public void MainPartsModifyAction(ActionEvent actionEvent) throws IOException {
 
         Part selectedPart = (Part) partsTable.getSelectionModel().getSelectedItem();
-        System.out.println(selectedPart.getClass());
-
-
         if (selectedPart.getClass() == model.InHouse.class) {
             InHouse selectPart = (InHouse) selectedPart;
             passInHouse(selectPart);
@@ -90,17 +88,12 @@ public class MainForm implements Initializable {
             passOutsourced(selectPart);
         }
 
-
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ModifyPartForm.fxml")));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene ModifyPart = new Scene(root);
         stage.setTitle("C482 - Modify Part Screen");
         stage.setScene(ModifyPart);
         stage.show();
-//        Inventory.deletePart(selectedPart);
-
-
-
     }
 
     // Main Screen DELETE Parts Button
@@ -124,6 +117,9 @@ public class MainForm implements Initializable {
 
     // Main Screen MODIFY Products Button - Switch to Modify Products Screen
     public void MainProductsModifyAction(ActionEvent actionEvent) throws IOException {
+        Product selectedProduct = (Product) productsTable.getSelectionModel().getSelectedItem();
+        passProduct(selectedProduct);
+
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ModifyProductForm.fxml")));
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
         Scene AddProduct = new Scene(root);
