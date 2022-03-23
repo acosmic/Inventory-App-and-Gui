@@ -20,6 +20,10 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+
+/**
+ * The Add Product Class. Methods to control the add product screen.
+ * */
 public class AddProductForm implements Initializable {
     public TextField addProductId;
     public TextField addProductName;
@@ -60,7 +64,9 @@ public class AddProductForm implements Initializable {
 
     }
 
-
+    /** Save button adds product to products list.
+     * @param actionEvent Save Button
+     * */
     public void AddProductSaveBtn(ActionEvent actionEvent) throws IOException {
         ObservableList<Product> allProducts = Inventory.getAllProducts();
         String name = addProductName.getText();
@@ -103,6 +109,9 @@ public class AddProductForm implements Initializable {
 
     }
 
+    /** Sends user to main screen.
+     * @param actionEvent Cancel Button
+     * */
     public void AddProductCancelBtn(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/MainForm.fxml")));
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
@@ -112,6 +121,9 @@ public class AddProductForm implements Initializable {
         stage.show();
     }
 
+    /** Adds a part to a product's associated parts.
+     * @param actionEvent Add Button
+     * */
     public void AddProductAddBtn(ActionEvent actionEvent) {
         Part selectedPart = (Part) partsTB.getSelectionModel().getSelectedItem();
         if(apAssociatedParts.contains(selectedPart) != true){
@@ -120,6 +132,9 @@ public class AddProductForm implements Initializable {
         }
     }
 
+    /** Removes a part from a product's associated parts.
+     * @param actionEvent Remove Button
+     * */
     public void AddProductRemoveAssociatedPartBtn(ActionEvent actionEvent) {
         Part selectedPart = (Part) assocPartsTB.getSelectionModel().getSelectedItem();
         apAssociatedParts.remove(selectedPart);
@@ -130,6 +145,9 @@ public class AddProductForm implements Initializable {
         removeSuccess.showAndWait();
     }
 
+    /** Sends user to main screen.
+     * @param actionEvent Cancel Button
+     * */
     public void toMainScreen(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/MainForm.fxml")));
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
@@ -139,6 +157,9 @@ public class AddProductForm implements Initializable {
         stage.show();
     }
 
+    /** Search field to search for parts.
+     * @param actionEvent Search Box
+     * */
     public void partsSearchAction(ActionEvent actionEvent) {
         searchResults.setText("");
         String q = partsSearchTF.getText();

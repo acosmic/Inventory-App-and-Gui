@@ -22,7 +22,9 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-
+/**
+ * The Add Part Form Class. Methods for controlling the add part screen.
+ * */
 public class AddPartForm implements Initializable {
     public Label MachineIDLabel;
     public RadioButton InHouseRadio;
@@ -43,18 +45,27 @@ public class AddPartForm implements Initializable {
 
     }
 
+    /**
+     * @param actionEvent InHouse radio button is selected
+     * */
     public void InHouseRadioBtn(ActionEvent actionEvent) {
         MachineIDLabel.setText("Machine ID");
         InHouseRadio.setSelected(true);
         OutsourcedRadio.setSelected(false);
     }
 
+    /**
+     * @param actionEvent Outsourced radio button is selected
+     * */
     public void OutSourcedRadioBtn(ActionEvent actionEvent) {
         MachineIDLabel.setText("Company Name");
         InHouseRadio.setSelected(false);
         OutsourcedRadio.setSelected(true);
     }
 
+    /** Save button adds part to parts list.
+     * @param actionEvent Save Button
+     * */
     public void AddPartSaveBtn(ActionEvent actionEvent) throws IOException {
         ObservableList<Part> allParts = Inventory.getAllParts();
         String name = addPartName.getText();
@@ -62,9 +73,6 @@ public class AddPartForm implements Initializable {
         int stock = Integer.parseInt(addPartInv.getText());
         int min = Integer.parseInt(addPartMin.getText());
         int max = Integer.parseInt(addPartMax.getText());
-
-
-
 
         int incrementId = 1;
         for(int i = 0; i < allParts.size(); i++){
@@ -116,10 +124,16 @@ public class AddPartForm implements Initializable {
 
     }
 
+    /** Calls toMainScreen method and sends user to main screen.
+     * @param actionEvent Cancel Button
+     * */
     public void AddPartCancelBtn(ActionEvent actionEvent) throws IOException {
         toMainScreen(actionEvent);
     }
 
+    /** Sends user to main screen.
+     * @param actionEvent Cancel Button
+     * */
     public void toMainScreen(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/MainForm.fxml")));
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();

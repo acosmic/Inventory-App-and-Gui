@@ -1,6 +1,6 @@
 package controller;
 
-import javafx.collections.FXCollections;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -16,13 +16,15 @@ import model.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
-import java.util.Observable;
 import java.util.ResourceBundle;
 
 import static controller.ModifyPartForm.*;
 import static controller.ModifyProductForm.passProduct;
 import static javafx.application.Platform.exit;
 
+/**
+ * The Main Form Class. Methods for controlling the main screen.
+ * */
 public class MainForm implements Initializable {
     //PARTS TABLE
     public TableView partsTable;
@@ -46,8 +48,6 @@ public class MainForm implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("MainForm initialized!");
 
-
-
         partsTable.setItems(Inventory.getAllParts());
         productsTable.setItems(Inventory.getAllProducts());
 
@@ -66,6 +66,9 @@ public class MainForm implements Initializable {
     }
 
     // Main Screen ADD Parts Button - Switch to AddPartForm
+    /** Sends user to Add Parts screen.
+     * @param actionEvent Add Button - Parts
+     * */
     public void MainPartsAddAction(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/AddPartForm.fxml")));
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
@@ -76,6 +79,9 @@ public class MainForm implements Initializable {
     }
 
     // Main Screen MODIFY Parts Button - Switch to ModifyPartForm
+    /** Sends user to Modify Parts screen.
+     * @param actionEvent Modify Button - Parts
+     * */
     public void MainPartsModifyAction(ActionEvent actionEvent) throws IOException {
 
         Part selectedPart = (Part) partsTable.getSelectionModel().getSelectedItem();
@@ -97,6 +103,9 @@ public class MainForm implements Initializable {
     }
 
     // Main Screen DELETE Parts Button
+    /** Deletes a part.
+     * @param actionEvent Delete Button - Parts
+     * */
     public void MainPartsDeleteAction(ActionEvent actionEvent) {
         Part selectedPart = (Part) partsTable.getSelectionModel().getSelectedItem();
         if (selectedPart == null){
@@ -118,6 +127,9 @@ public class MainForm implements Initializable {
     }
 
     // Main Screen ADD Products Button - Switch to Add Product Screen
+    /** Sends user to Add Products screen.
+     * @param actionEvent Add Button - Product
+     * */
     public void MainProductsAddAction(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/AddProductForm.fxml")));
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
@@ -128,6 +140,9 @@ public class MainForm implements Initializable {
     }
 
     // Main Screen MODIFY Products Button - Switch to Modify Products Screen
+    /** Sends user to Modify Products screen.
+     * @param actionEvent Modify Button - Product
+     * */
     public void MainProductsModifyAction(ActionEvent actionEvent) throws IOException {
         Product selectedProduct = (Product) productsTable.getSelectionModel().getSelectedItem();
         passProduct(selectedProduct);
@@ -141,6 +156,9 @@ public class MainForm implements Initializable {
     }
 
     // Main Screen DELETE Products Button
+    /** Deletes a product.
+     * @param actionEvent Delete Button - Products
+     * */
     public void MainProductsDeleteAction(ActionEvent actionEvent) {
         Product selectedProduct = (Product) productsTable.getSelectionModel().getSelectedItem();
 
@@ -171,10 +189,16 @@ public class MainForm implements Initializable {
     }
 
     //Main Screen EXIT Button - Closes program
+    /** Exits the program.
+     * @param actionEvent Exit Button
+     * */
     public void MainScreenExit(ActionEvent actionEvent) {
         exit();
     }
 
+    /** Search for a part.
+     * @param actionEvent Search Box - Parts
+     * */
     public void partsSearch(ActionEvent actionEvent) {
         partsSearchResults.setText("");
         String q = partsSearchTF.getText();
@@ -196,6 +220,9 @@ public class MainForm implements Initializable {
         partsTable.setItems(parts);
     }
 
+    /** Search for a product.
+     * @param actionEvent Search Box - Products
+     * */
     public void productsSearch(ActionEvent actionEvent) {
         productsSearchResults.setText("");
         String q = productsSearchTF.getText();

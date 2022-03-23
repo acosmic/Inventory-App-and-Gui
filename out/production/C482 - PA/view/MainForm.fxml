@@ -68,5 +68,7 @@
       <TextField fx:id="partsSearchTF" layoutX="405.0" layoutY="77.0" onAction="#partsSearch" promptText="Search by ID or Name" />
       <TextField fx:id="productsSearchTF" layoutX="983.0" layoutY="77.0" onAction="#productsSearch" promptText="Search by ID or Name" />
       <Button layoutX="1111.0" layoutY="574.0" mnemonicParsing="false" onAction="#MainScreenExit" text="Exit" />
+      <Label fx:id="partsSearchResults" layoutX="309.0" layoutY="81.0" prefHeight="17.0" prefWidth="96.0" />
+      <Label fx:id="productsSearchResults" layoutX="887.0" layoutY="81.0" prefHeight="17.0" prefWidth="96.0" />
    </children>
 </AnchorPane>

@@ -1,5 +1,7 @@
 package main;
 
+// Clint Mireles - Student ID: #001310038
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,6 +14,11 @@ import model.Product;
 
 import java.util.Objects;
 
+/**
+ * The Main class. Starts the inventory management application.
+ * RUNTIME ERROR - I got a NullPointerException when trying to add associated parts to a product and fixed by setting associatedParts = FXCollections.observableArrayList().
+ * FUTURE ENHANCEMENT - Leverage a database and implement a sales system to auto subtract from inventory, create invoices, etc.
+ * */
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
@@ -21,6 +28,10 @@ public class Main extends Application {
         stage.show();
     }
 
+    /**
+     * Adds initial test data to the application.
+     *
+     * */
     private static void addTestData(){
         InHouse wheel = new InHouse(1, "Wheel", 100.00, 15, 1, 50, 1);
         Inventory.addPart(wheel);
@@ -36,7 +47,10 @@ public class Main extends Application {
         Inventory.addProduct(truck);
     }
 
-
+    /**
+     * The main method. First method that gets called.
+     * */
+    // JavaDoc located at C482/javadoc/
     public static void main(String[] args){
         addTestData();
         launch(args);

@@ -21,6 +21,9 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * The Modify Product Form. Methods for controlling the modify product screen.
+ * */
 public class ModifyProductForm implements Initializable {
     public TableView partsTB;
     public TableColumn partsPartIdCol;
@@ -50,6 +53,9 @@ public class ModifyProductForm implements Initializable {
     public ObservableList<Part> transferAssociatedParts = FXCollections.observableArrayList();
     public Label searchResults;
 
+    /** Pass product from main screen to modify screen.
+     * @param product product to pass
+     * */
     public static void passProduct(Product product){
         ObservableList<Product> allProducts = Inventory.getAllProducts();
         selectedProduct = product;
@@ -86,6 +92,9 @@ public class ModifyProductForm implements Initializable {
 
     }
 
+    /** Saves modified product to the products list.
+     * @param actionEvent Save Button
+     * */
     public void ModifyProductSaveBtn(ActionEvent actionEvent) throws IOException {
         int id = Integer.parseInt(prodIdTF.getText());
         String name = prodNameTF.getText();
@@ -124,6 +133,9 @@ public class ModifyProductForm implements Initializable {
 
     }
 
+    /** Sends user back to main screen.
+     * @param actionEvent Cancel Button
+     * */
     public void ModifyProductCancelBtn(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/MainForm.fxml")));
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
@@ -133,6 +145,9 @@ public class ModifyProductForm implements Initializable {
         stage.show();
     }
     // Add Part to associated parts list
+    /** Adds selected part to products associated parts list.
+     * @param actionEvent Add Button - Associated Parts
+     * */
     public void ModifyProductAddBtn(ActionEvent actionEvent) {
         Part selectedPart = (Part) partsTB.getSelectionModel().getSelectedItem();
 
@@ -145,6 +160,9 @@ public class ModifyProductForm implements Initializable {
     }
 
     // Remove a part from the associated parts list
+    /** Removes selected part from associated parts list.
+     * @param actionEvent Remove Associated Parts Button
+     * */
     public void ModifyProductRemoveAssociatedPartBtn(ActionEvent actionEvent) {
         Part selectedPart = (Part) assocPartsTB.getSelectionModel().getSelectedItem();
         selectedProduct.deleteAssociatedPart(selectedPart);
@@ -156,6 +174,9 @@ public class ModifyProductForm implements Initializable {
     }
 
     // Search Parts List for a part
+    /** Search for a part.
+     * @param actionEvent Search Box - Parts
+     * */
     public void partsSearchAction(ActionEvent actionEvent) {
         searchResults.setText("");
         String q = partsSearchTF.getText();

@@ -8,6 +8,8 @@ package model;
  *
  * @author Clint Mireles
  */
+
+/** The Part class. Abstract class, subclassed by InHouse and Outsourced. */
 public abstract class Part {
     private int id;
     private String name;

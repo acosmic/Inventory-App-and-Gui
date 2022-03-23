@@ -24,8 +24,9 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-
-
+/**
+ * The Modify Part Form. Methods for controlling the modify part screen.
+ * */
 public class ModifyPartForm implements Initializable {
 
     public Label MPMachineIDLabel;
@@ -43,11 +44,18 @@ public class ModifyPartForm implements Initializable {
     private static Outsourced selectedOSPart = null;
     private static int index = 0;
 
+    /** Pass InHouse part from main screen to modify screen.
+     * @param part InHouse part to pass
+     * */
     public static void passInHouse(InHouse part){
         ObservableList<Part> allParts = Inventory.getAllParts();
         selectedIHPart = part;
         index = allParts.indexOf(part);
     }
+
+    /** Pass Outsourced part from main screen to modify screen.
+     * @param part Outsourced part to pass
+     * */
     public static void passOutsourced(Outsourced part){
         ObservableList<Part> allParts = Inventory.getAllParts();
         selectedOSPart = part;
@@ -85,18 +93,27 @@ public class ModifyPartForm implements Initializable {
 
     }
 
+    /**
+     * @param actionEvent InHouse radio button is selected
+     * */
     public void InHouseRadioBtn(ActionEvent actionEvent) {
         MPInHouseRadio.setSelected(true);
         MPOutsourcedRadio.setSelected(false);
         MPMachineIDLabel.setText("Machine ID");
     }
 
+    /**
+     * @param actionEvent Outsourced radio button is selected
+     * */
     public void OutsourcedRadioBtn(ActionEvent actionEvent) {
         MPInHouseRadio.setSelected(false);
         MPOutsourcedRadio.setSelected(true);
         MPMachineIDLabel.setText("Company Name");
     }
 
+    /** Saves modified part to the parts list.
+     * @param actionEvent Save Button
+     * */
     public void ModifyPartSaveBtn(ActionEvent actionEvent) throws IOException {
         int id = Integer.parseInt(modPartID.getText());
         String name = modPartName.getText();
@@ -137,6 +154,9 @@ public class ModifyPartForm implements Initializable {
         }
     }
 
+    /** Sends user back to main screen.
+     * @param actionEvent Cancel Button
+     * */
     public void ModifyPartCancelBtn(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/MainForm.fxml")));
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
