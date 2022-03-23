@@ -47,6 +47,8 @@ public class ModifyProductForm implements Initializable {
     private static int index = 0;
 
     public ObservableList<Part> mpAssociatedParts = FXCollections.observableArrayList();
+    public ObservableList<Part> transferAssociatedParts = FXCollections.observableArrayList();
+    public Label searchResults;
 
     public static void passProduct(Product product){
         ObservableList<Product> allProducts = Inventory.getAllProducts();
@@ -80,6 +82,8 @@ public class ModifyProductForm implements Initializable {
         assocPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         assocPartsTB.setItems(selectedProduct.getAllAssociatedParts());
 
+        searchResults.setText("");
+
     }
 
     public void ModifyProductSaveBtn(ActionEvent actionEvent) throws IOException {
@@ -90,14 +94,34 @@ public class ModifyProductForm implements Initializable {
         int min = Integer.parseInt(prodMinTF.getText());
         int max = Integer.parseInt(prodMaxTF.getText());
 
-        Inventory.updateProduct(index, new Product(id, name, price, stock, min, max));
+        if (max <= min){
+            Alert minMaxAlert = new Alert(Alert.AlertType.ERROR);
+            minMaxAlert.setTitle("Invalid Min Max Values");
+            minMaxAlert.setContentText("Max value must be greater than Min value.");
+            minMaxAlert.showAndWait();
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/MainForm.fxml")));
-        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene MainForm = new Scene(root);
-        stage.setTitle("C482 - Main Screen");
-        stage.setScene(MainForm);
-        stage.show();
+        }
+        else if (stock > max || stock < min){
+            Alert stockAlert = new Alert(Alert.AlertType.ERROR);
+            stockAlert.setTitle("Invalid Inv");
+            stockAlert.setContentText("Inv value must be between Min and Max values");
+            stockAlert.showAndWait();
+        }
+        else {
+            transferAssociatedParts = selectedProduct.getAllAssociatedParts();
+            Product newProduct = new Product(id, name, price, stock, min, max);
+            Inventory.updateProduct(index, newProduct);
+            newProduct.addAssociatedPart(transferAssociatedParts);
+
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/MainForm.fxml")));
+            Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+            Scene MainForm = new Scene(root);
+            stage.setTitle("C482 - Main Screen");
+            stage.setScene(MainForm);
+            stage.show();
+        }
+
+
     }
 
     public void ModifyProductCancelBtn(ActionEvent actionEvent) throws IOException {
@@ -111,22 +135,29 @@ public class ModifyProductForm implements Initializable {
     // Add Part to associated parts list
     public void ModifyProductAddBtn(ActionEvent actionEvent) {
         Part selectedPart = (Part) partsTB.getSelectionModel().getSelectedItem();
-        if (mpAssociatedParts.contains(selectedPart) != true &&
-                Inventory.getAllProducts().get(index).getAllAssociatedParts().contains(selectedPart) !=true){
-            mpAssociatedParts.add(selectedPart);
-        } else {}
-        Inventory.getAllProducts().get(index).addAssociatedPart(mpAssociatedParts);
+
+        if (!selectedProduct.getAllAssociatedParts().contains(selectedPart))
+            if (!mpAssociatedParts.contains(selectedPart)) {
+                mpAssociatedParts.add(selectedPart);
+            }
+        selectedProduct.addAssociatedPart(mpAssociatedParts);
         mpAssociatedParts.clear();
     }
 
     // Remove a part from the associated parts list
     public void ModifyProductRemoveAssociatedPartBtn(ActionEvent actionEvent) {
         Part selectedPart = (Part) assocPartsTB.getSelectionModel().getSelectedItem();
-        Inventory.getAllProducts().get(index).deleteAssociatedPart(selectedPart);
+        selectedProduct.deleteAssociatedPart(selectedPart);
+
+        Alert removeSuccess = new Alert(Alert.AlertType.CONFIRMATION);
+        removeSuccess.setTitle("Removal Successful");
+        removeSuccess.setContentText("Part removed from associated parts list!");
+        removeSuccess.showAndWait();
     }
 
     // Search Parts List for a part
     public void partsSearchAction(ActionEvent actionEvent) {
+        searchResults.setText("");
         String q = partsSearchTF.getText();
         ObservableList<Part> parts = Inventory.lookupPart(q);
 
@@ -140,7 +171,7 @@ public class ModifyProductForm implements Initializable {
                 }
             }
             catch (NumberFormatException e) {
-                //ignore
+                searchResults.setText("No search results!");
             }
         }
         partsTB.setItems(parts);

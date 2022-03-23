@@ -84,5 +84,6 @@
             <TextField fx:id="addProductMin" GridPane.columnIndex="3" GridPane.rowIndex="4" />
          </children>
       </GridPane>
+      <Label fx:id="searchResults" layoutX="886.0" layoutY="49.0" text="No search resluts!" />
    </children>
 </AnchorPane>

@@ -8,9 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Inventory;
@@ -41,6 +39,7 @@ public class AddProductForm implements Initializable {
     public TableColumn assocPriceCol;
     public TableView assocPartsTB;
     public ObservableList<Part> apAssociatedParts = FXCollections.observableArrayList();
+    public Label searchResults;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -80,10 +79,26 @@ public class AddProductForm implements Initializable {
         System.out.println(incrementId);
 
         int id = incrementId;
-        Product newProduct = new Product(id,name,price,stock,min,max);
-        allProducts.add(newProduct);
-        newProduct.addAssociatedPart(apAssociatedParts);
-        toMainScreen(actionEvent);
+        if (max <= min){
+            Alert minMaxAlert = new Alert(Alert.AlertType.ERROR);
+            minMaxAlert.setTitle("Invalid Min Max Values");
+            minMaxAlert.setContentText("Max value must be greater than Min value.");
+            minMaxAlert.showAndWait();
+
+        }
+        else if (stock > max || stock < min){
+            Alert stockAlert = new Alert(Alert.AlertType.ERROR);
+            stockAlert.setTitle("Invalid Inv");
+            stockAlert.setContentText("Inv value must be between Min and Max values");
+            stockAlert.showAndWait();
+        }
+        else {
+            Product newProduct = new Product(id,name,price,stock,min,max);
+            allProducts.add(newProduct);
+            newProduct.addAssociatedPart(apAssociatedParts);
+            toMainScreen(actionEvent);
+        }
+
 
 
     }
@@ -108,6 +123,11 @@ public class AddProductForm implements Initializable {
     public void AddProductRemoveAssociatedPartBtn(ActionEvent actionEvent) {
         Part selectedPart = (Part) assocPartsTB.getSelectionModel().getSelectedItem();
         apAssociatedParts.remove(selectedPart);
+
+        Alert removeSuccess = new Alert(Alert.AlertType.CONFIRMATION);
+        removeSuccess.setTitle("Removal Successful");
+        removeSuccess.setContentText("Part removed from associated parts list!");
+        removeSuccess.showAndWait();
     }
 
     public void toMainScreen(ActionEvent actionEvent) throws IOException {
@@ -120,6 +140,7 @@ public class AddProductForm implements Initializable {
     }
 
     public void partsSearchAction(ActionEvent actionEvent) {
+        searchResults.setText("");
         String q = partsSearchTF.getText();
         ObservableList<Part> parts = Inventory.lookupPart(q);
 
@@ -133,7 +154,7 @@ public class AddProductForm implements Initializable {
                 }
             }
             catch (NumberFormatException e) {
-                //ignore
+                searchResults.setText("No search results!");
             }
         }
         partsTB.setItems(parts);

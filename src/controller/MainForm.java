@@ -8,9 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.*;
@@ -40,6 +38,8 @@ public class MainForm implements Initializable {
     public TableColumn productsInv;
     public TableColumn productsPrice;
     public TextField productsSearchTF;
+    public Label partsSearchResults;
+    public Label productsSearchResults;
 
 
     @Override
@@ -99,9 +99,21 @@ public class MainForm implements Initializable {
     // Main Screen DELETE Parts Button
     public void MainPartsDeleteAction(ActionEvent actionEvent) {
         Part selectedPart = (Part) partsTable.getSelectionModel().getSelectedItem();
-        ObservableList<Part> allParts = Inventory.getAllParts();
-        Inventory.deletePart(selectedPart);
-        partsTable.setItems(allParts);
+        if (selectedPart == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Delete Part Error");
+            alert.setContentText("Deletion was unsuccessful. Please select a part to delete.");
+            alert.showAndWait();
+        } else {
+            ObservableList<Part> allParts = Inventory.getAllParts();
+            Inventory.deletePart(selectedPart);
+            partsTable.setItems(allParts);
+
+            Alert deleteSuccess = new Alert(Alert.AlertType.CONFIRMATION);
+            deleteSuccess.setTitle("Successful Deletion");
+            deleteSuccess.setContentText("Part was deleted successfully!");
+            deleteSuccess.showAndWait();
+        }
 
     }
 
@@ -131,9 +143,31 @@ public class MainForm implements Initializable {
     // Main Screen DELETE Products Button
     public void MainProductsDeleteAction(ActionEvent actionEvent) {
         Product selectedProduct = (Product) productsTable.getSelectionModel().getSelectedItem();
-        ObservableList<Product> allProducts= Inventory.getAllProducts();
-        Inventory.deleteProduct(selectedProduct);
-        productsTable.setItems(allProducts);
+
+        if (selectedProduct == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Delete Product Error");
+            alert.setContentText("Deletion was unsuccessful. Please select a product to delete.");
+            alert.showAndWait();
+        } else {
+            if (selectedProduct.getAllAssociatedParts().size() > 0){
+                Alert assocPartsAlert = new Alert(Alert.AlertType.ERROR);
+                assocPartsAlert.setTitle("Delete Product Error");
+                assocPartsAlert.setContentText("Can't delete a product if it has parts associated with it!");
+                assocPartsAlert.showAndWait();
+            } else {
+                ObservableList<Product> allProducts= Inventory.getAllProducts();
+                Inventory.deleteProduct(selectedProduct);
+                productsTable.setItems(allProducts);
+
+                Alert deleteSuccess = new Alert(Alert.AlertType.CONFIRMATION);
+                deleteSuccess.setTitle("Successful Deletion");
+                deleteSuccess.setContentText("Product was deleted successfully!");
+                deleteSuccess.showAndWait();
+
+            }
+
+        }
     }
 
     //Main Screen EXIT Button - Closes program
@@ -142,6 +176,7 @@ public class MainForm implements Initializable {
     }
 
     public void partsSearch(ActionEvent actionEvent) {
+        partsSearchResults.setText("");
         String q = partsSearchTF.getText();
         ObservableList<Part> parts = Inventory.lookupPart(q);
 
@@ -155,13 +190,14 @@ public class MainForm implements Initializable {
                 }
             }
             catch (NumberFormatException e) {
-                //ignore
+                partsSearchResults.setText("No search results!");
             }
         }
         partsTable.setItems(parts);
     }
 
     public void productsSearch(ActionEvent actionEvent) {
+        productsSearchResults.setText("");
         String q = productsSearchTF.getText();
         ObservableList<Product> products = Inventory.lookupProduct(q);
 
@@ -174,7 +210,7 @@ public class MainForm implements Initializable {
                 }
             }
             catch (NumberFormatException e) {
-                //ignore
+                productsSearchResults.setText("No search results!");
             }
         }
         productsTable.setItems(products);

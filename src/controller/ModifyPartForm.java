@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -103,22 +104,37 @@ public class ModifyPartForm implements Initializable {
         int stock = Integer.parseInt(modPartInv.getText());
         int min = Integer.parseInt(modPartMin.getText());
         int max = Integer.parseInt(modPartMax.getText());
-        if (MPInHouseRadio.isSelected() == true){
-            int machineId = Integer.parseInt(modPartMachineID.getText());
-            Inventory.updatePart(index, new InHouse(id, name, price, stock, min, max, machineId));
-        } else {
-            String companyID = modPartMachineID.getText();
-            Inventory.updatePart(index, new Outsourced(id, name, price, stock, min, max, companyID));
-        }
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/MainForm.fxml")));
-        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene MainForm = new Scene(root);
-        stage.setTitle("C482 - Main Screen");
-        stage.setScene(MainForm);
-        stage.show();
-        selectedOSPart = null;
-        selectedIHPart = null;
+        if (max <= min){
+            Alert minMaxAlert = new Alert(Alert.AlertType.ERROR);
+            minMaxAlert.setTitle("Invalid Min Max Values");
+            minMaxAlert.setContentText("Max value must be greater than Min value.");
+            minMaxAlert.showAndWait();
+        }
+        else if (stock > max || stock < min){
+            Alert stockAlert = new Alert(Alert.AlertType.ERROR);
+            stockAlert.setTitle("Invalid Inv");
+            stockAlert.setContentText("Inv value must be between Min and Max values");
+            stockAlert.showAndWait();
+        }
+        else {
+            if (MPInHouseRadio.isSelected() == true) {
+                int machineId = Integer.parseInt(modPartMachineID.getText());
+                Inventory.updatePart(index, new InHouse(id, name, price, stock, min, max, machineId));
+            } else {
+                String companyID = modPartMachineID.getText();
+                Inventory.updatePart(index, new Outsourced(id, name, price, stock, min, max, companyID));
+            }
+
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/MainForm.fxml")));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene MainForm = new Scene(root);
+            stage.setTitle("C482 - Main Screen");
+            stage.setScene(MainForm);
+            stage.show();
+            selectedOSPart = null;
+            selectedIHPart = null;
+        }
     }
 
     public void ModifyPartCancelBtn(ActionEvent actionEvent) throws IOException {

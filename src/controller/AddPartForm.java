@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -75,16 +76,42 @@ public class AddPartForm implements Initializable {
         System.out.println(incrementId);
 
         int id = incrementId;
-        if (InHouseRadio.isSelected()){
-            int machineId = Integer.parseInt(addPartMachineId.getText());
-            InHouse newPart = new InHouse(id,name,price,stock,min,max,machineId);
-            allParts.add(newPart);
-        } else if (OutsourcedRadio.isSelected()) {
-            String companyName = addPartMachineId.getText();
-            Outsourced newPart = new Outsourced(id,name,price,stock,min,max,companyName);
-            allParts.add(newPart);
+        if (max <= min){
+            Alert minMaxAlert = new Alert(Alert.AlertType.ERROR);
+            minMaxAlert.setTitle("Invalid Min Max Values");
+            minMaxAlert.setContentText("Max value must be greater than Min value.");
+            minMaxAlert.showAndWait();
+
         }
-        toMainScreen(actionEvent);
+        else if (stock > max || stock < min){
+            Alert stockAlert = new Alert(Alert.AlertType.ERROR);
+            stockAlert.setTitle("Invalid Inv");
+            stockAlert.setContentText("Inv value must be between Min and Max values");
+            stockAlert.showAndWait();
+        }
+        else {
+            try{
+                if (InHouseRadio.isSelected()){
+                    int machineId = Integer.parseInt(addPartMachineId.getText());
+                    InHouse newPart = new InHouse(id,name,price,stock,min,max,machineId);
+                    allParts.add(newPart);
+                }
+                else if (OutsourcedRadio.isSelected()) {
+                    String companyName = addPartMachineId.getText();
+                    Outsourced newPart = new Outsourced(id,name,price,stock,min,max,companyName);
+                    allParts.add(newPart);
+                }
+                toMainScreen(actionEvent);
+            }
+            catch (Exception e) {
+                Alert invalidInput = new Alert(Alert.AlertType.ERROR);
+                invalidInput.setTitle("Invalid Input");
+                invalidInput.setContentText("Input is not valid, please make sure Inv,Max,Min and Machine ID are integers");
+                invalidInput.showAndWait();
+            }
+        }
+
+
 
 
     }
